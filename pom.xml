@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example.qa</groupId>
+  <artifactId>selenium-qa-automation</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>selenium-qa-automation</name>
+  <description>UI test automation framework: Selenium 4 + TestNG + Page Object Model</description>
+
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- Check https://central.sonatype.com/artifact/org.seleniumhq.selenium/selenium-java
+         periodically and bump this. Selenium ships every few weeks. -->
+    <selenium.version>4.25.0</selenium.version>
+    <testng.version>7.10.2</testng.version>
+    <slf4j.version>2.0.16</slf4j.version>
+    <surefire.version>3.5.2</surefire.version>
+    <compiler.version>3.13.0</compiler.version>
+    <resources.version>3.3.1</resources.version>
+
+    <!-- Defaults; override on the command line with -Dbrowser=firefox -Dheadless=true -->
+    <browser>chrome</browser>
+    <headless>false</headless>
+    <suiteFile>testng.xml</suiteFile>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>${selenium.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${testng.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Silences Selenium's "SLF4J: No providers were found" noise -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- MUST be pinned explicitly. Maven 3.8.x binds compiler plugin 3.1 by
+           default, and 3.1 predates the <release> option entirely: it ignores
+           maven.compiler.release and falls back to source/target 1.5, which
+           JDK 17 rejects outright ("Source option 5 is no longer supported").
+           Any version 3.6+ honours <release>; 3.13.0 is current and safe. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${compiler.version}</version>
+      </plugin>
+
+      <!-- Pinned for the same reason: Maven 3.8.x would otherwise bind
+           version 2.6, which is from 2013. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${resources.version}</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+          <suiteXmlFiles>
+            <suiteXmlFile>${suiteFile}</suiteXmlFile>
+          </suiteXmlFiles>
+          <systemPropertyVariables>
+            <browser>${browser}</browser>
+            <headless>${headless}</headless>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

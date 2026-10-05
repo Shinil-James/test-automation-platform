@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<!--
+  The suite file decides WHAT runs and HOW MANY at once.
+
+  parallel="methods" + thread-count="3" runs three browsers side by side.
+  That is safe here because DriverFactory keeps each driver in a ThreadLocal.
+  Drop thread-count to 1 if you are debugging and want to watch one window.
+-->
+<suite name="QA Automation Suite" verbose="1" parallel="methods" thread-count="3">
+
+  <listeners>
+    <listener class-name="com.example.qa.listeners.ScreenshotListener"/>
+  </listeners>
+
+  <test name="Web Form Regression">
+    <classes>
+      <class name="com.example.qa.tests.WebFormTest"/>
+    </classes>
+  </test>
+
+</suite>

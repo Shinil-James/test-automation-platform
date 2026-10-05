@@ -1,0 +1,36 @@
+# Maven build output
+target/
+*.class
+
+# TestNG / Surefire reports
+test-output/
+screenshots/
+
+# IDE — IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# IDE — VS Code
+.vscode/
+
+# IDE — Eclipse
+.settings/
+.project
+.classpath
+bin/
+
+# Logs
+*.log
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local secrets — never commit credentials
+.env
+local.properties
+src/test/resources/secrets.properties
